@@ -11,6 +11,7 @@ abstract interface class AuthRemoteDataSource {
     String password,
     String name,
     String phone,
+    String role,
   );
   Future<UserModel> loginWithEmailPassword(String email, String password);
   Future<void> forgotPassword(String email);
@@ -152,6 +153,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String password,
     String name,
     String phone,
+    String role,
   ) async {
     try {
       final body = jsonEncode({
@@ -159,7 +161,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'password': password,
         'name': name,
         'phone': phone,
-        'role': 'buyer',
+        'role': role,
       });
 
       final response = await _httpClient.post(

@@ -8,12 +8,14 @@ final class RegisterWithEmailPasswordEvent extends AuthBlocEvent {
   final String password;
   final String name;
   final String phone;
+  final String role;
 
   RegisterWithEmailPasswordEvent({
     required this.email,
     required this.password,
     required this.name,
     required this.phone,
+    required this.role,
   });
 }
 

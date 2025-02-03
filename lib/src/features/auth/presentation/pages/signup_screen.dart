@@ -26,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _password2Controller = TextEditingController();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
+  String role = "buyer";
 
   void _onSubmitForm(BuildContext context) {
     if (_formKey.currentState!.validate()) {
@@ -35,6 +36,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               password: _password1Controller.text.trim(),
               name: _nameController.text.trim(),
               phone: _phoneController.text.trim(),
+              role: role,
             ),
           );
     } else {
@@ -193,7 +195,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 4.h),
+                        SizedBox(height: 1.h),
+                        DropdownButton(
+                          value: role,
+                          items: const [
+                            DropdownMenuItem(
+                              value: "buyer",
+                              child: Text("Buyer"),
+                            ),
+                            DropdownMenuItem(
+                              value: "seller",
+                              child: Text("Seller"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            if (value == null) {
+                              return;
+                            }
+                            setState(() {
+                              role = value;
+                            });
+                          },
+                        ),
+                        SizedBox(height: 2.h),
                         BlocConsumer<AuthBloc, AuthState>(
                           listener: (context, state) {
                             if (state is AuthFailure) {
@@ -220,55 +244,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 3.h),
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(width: 4.w),
-                      Text(
-                        "Sign in with",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15.5.sp,
-                        ),
-                      ),
-                      SizedBox(width: 4.w),
-                      const Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.white,
-                        ),
-                      )
-                    ],
-                  ),
                   SizedBox(height: 2.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SignUpIcons(
-                        svgUrl: "assets/svg/google_icon.svg",
-                        onTap: () {},
-                      ),
-                      SizedBox(width: 5.w),
-                      SignUpIcons(
-                        svgUrl: "assets/svg/facebook_icon.svg",
-                        onTap: () {},
-                      ),
-                      SizedBox(width: 5.w),
-                      SignUpIcons(
-                        svgUrl: "assets/svg/apple_icon.svg",
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5.h),
                   Center(
                     child: RichText(
                       text: TextSpan(
@@ -276,7 +252,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         style: TextStyle(
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w400,
-                          fontSize: 15.8.sp,
+                          fontSize: 15.sp,
                         ),
                         children: [
                           TextSpan(

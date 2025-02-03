@@ -8,6 +8,7 @@ abstract interface class AuthRepository {
     String password,
     String name,
     String phone,
+    String role,
   );
   Future<Either<AuthFailure, UserEntity>> loginWithEmailPassword(
     String email,

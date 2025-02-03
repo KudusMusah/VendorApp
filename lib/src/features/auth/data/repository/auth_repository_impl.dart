@@ -70,6 +70,7 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
     String name,
     String phone,
+    String role,
   ) async {
     try {
       await _authRemoteDataSource.registerWithEmailPassword(
@@ -77,6 +78,7 @@ class AuthRepositoryImpl implements AuthRepository {
         password,
         name,
         phone,
+        role,
       );
 
       return right(null);
