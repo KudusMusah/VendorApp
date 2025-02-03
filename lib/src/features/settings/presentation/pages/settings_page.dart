@@ -1,9 +1,11 @@
+import 'package:didi/src/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:didi/src/core/constants.dart';
 import 'package:didi/src/core/theme/theme_colors.dart';
+import 'package:didi/src/core/widgets/auth_input_field.dart';
+import 'package:didi/src/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:routemaster/routemaster.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -11,6 +13,12 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTablet = Device.screenType == ScreenType.tablet;
+
+    final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
+
+    final _usernameController = TextEditingController(text: user.name);
+    final _emailController = TextEditingController(text: user.email);
+    final _phoneController = TextEditingController(text: user.phone);
 
     return Scaffold(
       body: SafeArea(
@@ -42,122 +50,55 @@ class SettingsPage extends StatelessWidget {
                       fontFamily: "Poppins",
                     ),
                   ),
-                  SizedBox(width: 2.5.w),
-                  Container(
-                    width: 1.w,
-                    height: 1.w,
-                    decoration: const BoxDecoration(
-                      color: AppThemeColors.kWhiteColor,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () =>
-                        Routemaster.of(context).push("/updatePhone"),
-                    child: Row(
-                      children: [
-                        Text(
-                          "Edit",
-                          style: TextStyle(
-                            color: AppThemeColors.kWhiteColor,
-                            fontSize: 15.sp,
-                            fontFamily: "Poppins",
-                          ),
-                        ),
-                        SvgPicture.asset(
-                          "assets/svg/greater_than.svg",
-                          height: 2.h,
-                        ),
-                      ],
-                    ),
-                  )
                 ],
               ),
-              SizedBox(height: 1.5.h),
-              ListTile(
-                onTap: () {},
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: isTablet ? 1.h : 0),
-                leading: SvgPicture.asset(
-                  "assets/svg/payment.svg",
-                  height: 2.2.h,
-                ),
-                title: Text(
-                  "Payment",
-                  style: TextStyle(
-                    color: AppThemeColors.kWhiteColor,
-                    fontSize: 15.sp,
-                    fontFamily: "Poppins",
-                  ),
+              SizedBox(height: 3.h),
+              Text(
+                "Username",
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 15.5.sp,
+                  color: AppThemeColors.kBasketTextColor,
                 ),
               ),
-              ListTile(
-                onTap: () {},
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: isTablet ? 1.h : 0),
-                leading: SvgPicture.asset(
-                  "assets/svg/telegram.svg",
-                  height: 2.2.h,
-                ),
-                title: Text(
-                  "Promo Codes",
-                  style: TextStyle(
-                    color: AppThemeColors.kWhiteColor,
-                    fontSize: 15.sp,
-                    fontFamily: "Poppins",
-                  ),
+              SizedBox(height: 1.h),
+              AuthInputField(
+                controller: _usernameController,
+                hintText: user.name,
+              ),
+              SizedBox(height: 2.5.h),
+              Text(
+                "email",
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 15.5.sp,
+                  color: AppThemeColors.kBasketTextColor,
                 ),
               ),
-              ListTile(
-                onTap: () {},
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: isTablet ? 1.h : 0),
-                leading: SvgPicture.asset(
-                  "assets/svg/profile.svg",
-                  height: 2.2.h,
-                ),
-                title: Text(
-                  "Profile",
-                  style: TextStyle(
-                    color: AppThemeColors.kWhiteColor,
-                    fontSize: 15.sp,
-                    fontFamily: "Poppins",
-                  ),
+              SizedBox(height: 1.h),
+              AuthInputField(
+                controller: _emailController,
+                hintText: user.email,
+              ),
+              SizedBox(height: 2.5.h),
+              Text(
+                "Phone Number",
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 15.5.sp,
+                  color: AppThemeColors.kBasketTextColor,
                 ),
               ),
-              ListTile(
-                onTap: () {},
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: isTablet ? 1.h : 0),
-                leading: SvgPicture.asset(
-                  "assets/svg/settings.svg",
-                  height: 2.2.h,
-                ),
-                title: Text(
-                  "Settings",
-                  style: TextStyle(
-                    color: AppThemeColors.kWhiteColor,
-                    fontSize: 15.sp,
-                    fontFamily: "Poppins",
-                  ),
-                ),
+              SizedBox(height: 1.h),
+              AuthInputField(
+                controller: _phoneController,
+                hintText: user.phone,
               ),
-              ListTile(
-                onTap: () {},
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: isTablet ? 1.h : 0),
-                leading: SvgPicture.asset(
-                  "assets/svg/about.svg",
-                  height: 2.2.h,
-                ),
-                title: Text(
-                  "About",
-                  style: TextStyle(
-                    color: AppThemeColors.kWhiteColor,
-                    fontSize: 15.sp,
-                    fontFamily: "Poppins",
-                  ),
-                ),
+              SizedBox(height: 3.h),
+              CustomButton(
+                text: "Update",
+                width: 90.w,
+                onPressed: () {},
               ),
             ],
           ),

@@ -126,7 +126,7 @@ class _TabBarPageState extends State<TabBarPage> {
               icon: Padding(
                 padding: const EdgeInsets.only(top: 14, bottom: 7),
                 child: SvgPicture.asset(
-                  'assets/svg/settings.svg',
+                  'assets/svg/profile.svg',
                   width: 17.sp,
                   colorFilter: ColorFilter.mode(
                     _selectedIndex == 4
@@ -136,7 +136,7 @@ class _TabBarPageState extends State<TabBarPage> {
                   ),
                 ),
               ),
-              label: "Settings",
+              label: "Profile",
             ),
           ],
         ),

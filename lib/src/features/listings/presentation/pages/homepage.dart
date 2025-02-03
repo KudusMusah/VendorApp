@@ -1,6 +1,7 @@
 import 'package:didi/src/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:didi/src/core/constants.dart';
 import 'package:didi/src/core/theme/theme_colors.dart';
+import 'package:didi/src/features/auth/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:didi/src/features/listings/bloc/products_bloc_bloc.dart';
 import 'package:didi/src/features/listings/presentation/widgets/announcement_card.dart';
 import 'package:didi/src/features/listings/presentation/widgets/custom_chip.dart';
@@ -8,8 +9,8 @@ import 'package:didi/src/features/listings/presentation/widgets/home_text_field.
 import 'package:didi/src/features/listings/presentation/widgets/meal_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:routemaster/routemaster.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key, required this.onTextFieldTap});
@@ -27,9 +28,7 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
-    context
-        .read<ProductsBloc>()
-        .add(GetAllProductsEvent(token: user.token));
+    context.read<ProductsBloc>().add(GetAllProductsEvent(token: user.token));
   }
 
   @override
@@ -68,7 +67,7 @@ class _HomepageState extends State<Homepage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: 70.w,
+                              width: 60.w,
                               child: RichText(
                                 overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
@@ -101,9 +100,30 @@ class _HomepageState extends State<Homepage> {
                             )
                           ],
                         ),
-                        SvgPicture.asset(
-                          "assets/svg/cart.svg",
-                          height: 4.3.h,
+                        Row(
+                          children: [
+                            if (user.role == "seller")
+                              GestureDetector(
+                                onTap: () => Routemaster.of(context)
+                                    .push("/seller_dahboard"),
+                                child: Icon(
+                                  Icons.dashboard_customize_outlined,
+                                  size: 20.sp,
+                                  color: AppThemeColors.kBasketTabBorderColor,
+                                ),
+                              ),
+                            SizedBox(width: 3.w),
+                            GestureDetector(
+                              onTap: () => context
+                                  .read<AuthBloc>()
+                                  .add(LogoutUserEvent()),
+                              child: Icon(
+                                Icons.logout,
+                                size: 20.sp,
+                                color: AppThemeColors.kBasketTabBorderColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

@@ -65,20 +65,21 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, UserModel>> registerWithEmailPassword(
+  Future<Either<AuthFailure, void>> registerWithEmailPassword(
     String email,
     String password,
     String name,
     String phone,
   ) async {
     try {
-      final user = await _authRemoteDataSource.registerWithEmailPassword(
+      await _authRemoteDataSource.registerWithEmailPassword(
         email,
         password,
         name,
         phone,
       );
-      return right(user);
+
+      return right(null);
     } on AuthException catch (e) {
       return left(AuthFailure(message: e.message));
     }
@@ -104,6 +105,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<AuthFailure, UserEntity>> getLoggedInuser() async {
     try {
       final user = await _authLocalDataSource.getLoggedInUserInfo();
+      return right(user);
+    } on AuthException catch (e) {
+      return left(AuthFailure(message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<AuthFailure, void>> logout() async {
+    try {
+      final user = await _authLocalDataSource.logout();
       return right(user);
     } on AuthException catch (e) {
       return left(AuthFailure(message: e.message));

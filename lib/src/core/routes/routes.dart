@@ -29,6 +29,7 @@ final loggedInRoutes = RouteMap(
   onUnknownRoute: (_) => const Redirect('/'),
   routes: {
     '/': (_) => const MaterialPage(child: TabBarPage()),
+    '/seller_dahboard': (_) => const MaterialPage(child: SellerDashboard()),
     '/details/:id': (info) => MaterialPage(
           child: ProductDetails(
             id: info.pathParameters['id']!,

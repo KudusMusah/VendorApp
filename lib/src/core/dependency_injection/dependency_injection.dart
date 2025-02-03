@@ -50,6 +50,9 @@ void _initAuth() {
     ..registerFactory(
       () => GetLoggedInUserUsecase(authRepository: sl()),
     )
+    ..registerFactory(
+      () => LogoutUsecase(authRepository: sl()),
+    )
     // Cubits
     ..registerLazySingleton(
       () => AppUserCubit(),
@@ -58,6 +61,7 @@ void _initAuth() {
     ..registerFactory(
       () => AuthBloc(
         registerWithEmailUsecase: sl(),
+        logoutUsecase: sl(),
         loginWithEmailUsecase: sl(),
         forgotPasswordUsecase: sl(),
         verifyCodeUsecase: sl(),

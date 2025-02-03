@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 abstract interface class AuthLocalDataSource {
   void storeLoggedInUserInfo(UserModel user);
   Future<UserModel> getLoggedInUserInfo();
+  Future<void> logout();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -27,6 +28,18 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         throw AuthException(message: "User is not loggenIn");
       }
       return UserModel.fromLocalJson(user);
+    } catch (e) {
+      if (e is AuthException) {
+        throw AuthException(message: e.message, code: e.code);
+      }
+      throw AuthException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    try {
+      _hiveBox.put("loggedInUser", null);
     } catch (e) {
       if (e is AuthException) {
         throw AuthException(message: e.message, code: e.code);

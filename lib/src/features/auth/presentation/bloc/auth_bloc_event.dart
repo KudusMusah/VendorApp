@@ -26,6 +26,8 @@ final class LoginWithEmailPasswordEvent extends AuthBlocEvent {
 
 final class GetLoggedInUserEvent extends AuthBlocEvent {}
 
+final class LogoutUserEvent extends AuthBlocEvent {}
+
 final class ForgotPasswordEvent extends AuthBlocEvent {
   final String email;
 

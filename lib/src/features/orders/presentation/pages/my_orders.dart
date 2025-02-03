@@ -1,5 +1,6 @@
 import 'package:didi/src/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:didi/src/core/constants.dart';
+import 'package:didi/src/core/theme/theme_colors.dart';
 import 'package:didi/src/features/orders/bloc/order_bloc.dart';
 import 'package:didi/src/features/orders/presentation/widgets/order_item.dart';
 import 'package:flutter/material.dart';
@@ -42,11 +43,22 @@ class _MyOrdersState extends State<MyOrders> {
           }
 
           if (state is GetUserOrdersSuccess) {
+            if (state.orders.isEmpty) {
+              return Center(
+                child: Text(
+                  "No orders placed",
+                  style: TextStyle(
+                    fontSize: 17.sp,
+                    color: AppThemeColors.kStartingPriceColor,
+                  ),
+                ),
+              );
+            }
             return Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
               child: ListView.builder(
-                // reverse: true,
+                reverse: true,
                 itemCount: state.orders.length,
                 itemBuilder: (context, index) => OrderItem(
                   orderItem: state.orders[index],

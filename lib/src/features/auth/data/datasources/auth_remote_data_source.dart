@@ -6,7 +6,7 @@ import 'package:didi/src/features/auth/data/models/user_model.dart';
 import 'package:http/http.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Future<UserModel> registerWithEmailPassword(
+  Future<void> registerWithEmailPassword(
     String email,
     String password,
     String name,
@@ -147,7 +147,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> registerWithEmailPassword(
+  Future<void> registerWithEmailPassword(
     String email,
     String password,
     String name,
@@ -180,9 +180,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           code: response.statusCode.toString(),
         );
       }
-
-      final resMap = jsonDecode(response.body) as Map<String, dynamic>;
-      return UserModel.fromJson(resMap["user"]);
     } catch (e) {
       if (e is AuthException) {
         throw AuthException(message: e.message, code: e.code);

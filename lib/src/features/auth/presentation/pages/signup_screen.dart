@@ -200,7 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               showSnackBar(context, state.message);
                             }
 
-                            if (state is AuthSuccess) {
+                            if (state is LogoutSuccess) {
                               showSnackBar(context,
                                   "Registration successful. Login to get started");
                               Routemaster.of(context).replace("/signIn");

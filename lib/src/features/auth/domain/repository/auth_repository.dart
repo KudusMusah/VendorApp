@@ -3,7 +3,7 @@ import 'package:didi/src/core/common/entities/user_entity.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract interface class AuthRepository {
-  Future<Either<AuthFailure, UserEntity>> registerWithEmailPassword(
+  Future<Either<AuthFailure, void>> registerWithEmailPassword(
     String email,
     String password,
     String name,
@@ -24,4 +24,5 @@ abstract interface class AuthRepository {
     String password,
   );
   Future<Either<AuthFailure, UserEntity>> getLoggedInuser();
+  Future<Either<AuthFailure, void>> logout();
 }

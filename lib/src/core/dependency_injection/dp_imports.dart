@@ -7,6 +7,7 @@ import 'package:didi/src/features/auth/domain/usecases/change_password_usecase.d
 import 'package:didi/src/features/auth/domain/usecases/forgot_password_usecase.dart';
 import 'package:didi/src/features/auth/domain/usecases/get_logged_in_user_usecase.dart';
 import 'package:didi/src/features/auth/domain/usecases/login_with_email_usecase.dart';
+import 'package:didi/src/features/auth/domain/usecases/logout.dart';
 import 'package:didi/src/features/auth/domain/usecases/register_with_email_usecase.dart';
 import 'package:didi/src/features/auth/domain/usecases/verify_code_usecase.dart';
 import 'package:didi/src/features/auth/presentation/bloc/auth_bloc_bloc.dart';

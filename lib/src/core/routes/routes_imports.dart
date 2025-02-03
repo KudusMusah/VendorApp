@@ -5,6 +5,7 @@ import 'package:didi/src/features/auth/presentation/pages/password_reset_request
 import 'package:didi/src/features/auth/presentation/pages/signin_screen.dart';
 import 'package:didi/src/features/auth/presentation/pages/signup_screen.dart';
 import 'package:didi/src/features/listings/presentation/pages/product_details.dart';
+import 'package:didi/src/features/listings/presentation/pages/seller_dashboard.dart';
 import 'package:didi/src/features/listings/presentation/pages/tab_bar_view.dart';
 import 'package:didi/src/features/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:didi/src/features/settings/presentation/pages/update_phone.dart';
