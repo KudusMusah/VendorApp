@@ -25,16 +25,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _password1Controller = TextEditingController();
   final _password2Controller = TextEditingController();
   final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   void _onSubmitForm(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      // context.read<AuthBloc>().add(
-      //       RegisterWithEmailPasswordEvent(
-      //         email: _emailController.text.trim(),
-      //         password: _password1Controller.text.trim(),
-      //         name: _nameController.text.trim(),
-      //       ),
-      //     );
+      context.read<AuthBloc>().add(
+            RegisterWithEmailPasswordEvent(
+              email: _emailController.text.trim(),
+              password: _password1Controller.text.trim(),
+              name: _nameController.text.trim(),
+              phone: _phoneController.text.trim(),
+            ),
+          );
     } else {
       return;
     }
@@ -60,6 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 2.5.h),
                   Text(
                     "Welcome to Vendobuyo",
                     style: TextStyle(
@@ -106,9 +109,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 2.h),
+                        SizedBox(height: 1.h),
                         const Text(
-                          "Username",
+                          "Name",
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontFamily: "Poppins"),
@@ -116,16 +119,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 1.h),
                         AuthInputField(
                           controller: _nameController,
-                          hintText: "Enter a name",
+                          hintText: "Enter your name",
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Enter your name";
+                            if (value == null || value.trim().length < 4) {
+                              return "Name should be at least 4 letters";
                             }
                             return null;
                           },
                         ),
-                        SizedBox(height: 2.h),
+                        SizedBox(height: 1.h),
+                        const Text(
+                          "Phone",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: "Poppins"),
+                        ),
+                        SizedBox(height: 1.h),
+                        AuthInputField(
+                          controller: _phoneController,
+                          hintText: "Enter your phone number",
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.trim().length < 10) {
+                              return "Name should be at least 10 letters";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 1.h),
                         const Text(
                           "Password",
                           style: TextStyle(

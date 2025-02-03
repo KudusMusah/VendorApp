@@ -1,4 +1,3 @@
-import 'package:didi/src/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:didi/src/core/common/widgets/loader.dart';
 import 'package:didi/src/core/constants.dart';
 import 'package:didi/src/core/utils/snackbar.dart';
@@ -27,11 +26,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void _onSubmitForm(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      // context.read<AuthBloc>().add(LoginWithEmailPasswordEvent(
-      //       email: _emailController.text.trim(),
-      //       password: _password1Controller.text.trim(),
-      //     ));
-      context.read<AppUserCubit>().mockUserLoggenIn();
+      context.read<AuthBloc>().add(LoginWithEmailPasswordEvent(
+            email: _emailController.text.trim(),
+            password: _password1Controller.text.trim(),
+          ));
+      // context.read<AppUserCubit>().mockUserLoggenIn();
     } else {
       return;
     }

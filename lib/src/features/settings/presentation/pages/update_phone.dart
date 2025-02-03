@@ -1,9 +1,7 @@
-import 'package:didi/src/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:didi/src/core/constants.dart';
 import 'package:didi/src/core/widgets/custom_button.dart';
 import 'package:didi/src/features/settings/presentation/widgets/phone_input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -32,8 +30,8 @@ class _UpdatePhoneState extends State<UpdatePhone> {
   @override
   Widget build(BuildContext context) {
     final isTablet = Device.screenType == ScreenType.tablet;
-    final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
-    _phoneController = TextEditingController(text: user.phone);
+    // final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
+    // _phoneController = TextEditingController(text: user.phone);
 
     return Scaffold(
       appBar: AppBar(

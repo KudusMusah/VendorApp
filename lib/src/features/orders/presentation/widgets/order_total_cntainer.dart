@@ -1,14 +1,37 @@
 import 'package:didi/src/core/constants.dart';
 import 'package:didi/src/core/theme/theme_colors.dart';
+import 'package:didi/src/features/listings/models/products.dart';
 import 'package:didi/src/features/orders/presentation/widgets/price_info.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class OrderTotalContainer extends StatelessWidget {
-  const OrderTotalContainer({super.key});
+  const OrderTotalContainer(
+      {super.key, required this.products, required this.quantity});
+
+  final List<Product> products;
+  final List<int> quantity;
+
+  double calculateSubTotal() {
+    double subtotal = 0;
+    for (int i = 0; i < products.length; i++) {
+      subtotal += products[i].price * quantity[i];
+    }
+    return double.parse(subtotal.toStringAsFixed(2));
+  }
 
   @override
   Widget build(BuildContext context) {
+    final subtotal = calculateSubTotal();
+    final serviceFee = double.parse((0.05 * subtotal).toStringAsFixed(2));
+    double deliveryFee = products.length * 15.0;
+
+    if (deliveryFee < 20) {
+      deliveryFee = 20;
+    }
+
+    final total = subtotal + serviceFee + deliveryFee;
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -24,24 +47,19 @@ class OrderTotalContainer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const PriceInfo(
-              price: "99",
+            PriceInfo(
+              price: "$subtotal",
               title: "Subtotal",
               isBold: true,
             ),
             SizedBox(height: 0.5.h),
-            const PriceInfo(
-              price: "0.77",
+            PriceInfo(
+              price: "$serviceFee",
               title: "Service fee",
             ),
             SizedBox(height: 0.5.h),
-            const PriceInfo(
-              price: "0.00",
-              title: "Tips",
-            ),
-            SizedBox(height: 0.5.h),
-            const PriceInfo(
-              price: "5.00",
+            PriceInfo(
+              price: "$deliveryFee",
               title: "Delivery fee",
             ),
             SizedBox(height: 3.h),
@@ -50,8 +68,8 @@ class OrderTotalContainer extends StatelessWidget {
               color: AppThemeColors.kDividerColor,
               thickness: 0.5,
             ),
-            const PriceInfo(
-              price: "104.77",
+            PriceInfo(
+              price: "$total",
               title: "Total",
               isBold: true,
             ),

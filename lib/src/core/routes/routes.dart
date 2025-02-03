@@ -29,9 +29,9 @@ final loggedInRoutes = RouteMap(
   onUnknownRoute: (_) => const Redirect('/'),
   routes: {
     '/': (_) => const MaterialPage(child: TabBarPage()),
-    '/details/:productId': (info) => MaterialPage(
+    '/details/:id': (info) => MaterialPage(
           child: ProductDetails(
-            productId: info.pathParameters['productId']!,
+            id: info.pathParameters['id']!,
           ),
         ),
     '/updatePhone': (_) => const MaterialPage(child: UpdatePhone()),

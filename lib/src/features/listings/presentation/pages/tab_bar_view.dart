@@ -2,7 +2,7 @@ import 'package:didi/src/core/theme/theme_colors.dart';
 import 'package:didi/src/features/listings/presentation/pages/homepage.dart';
 import 'package:didi/src/features/listings/presentation/pages/search_page.dart';
 import 'package:didi/src/features/orders/presentation/pages/my_orders.dart';
-import 'package:didi/src/features/orders/presentation/pages/payment.dart';
+import 'package:didi/src/features/orders/presentation/pages/my_cart.dart';
 import 'package:didi/src/features/settings/presentation/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

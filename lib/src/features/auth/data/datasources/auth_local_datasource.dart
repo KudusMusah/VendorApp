@@ -26,7 +26,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       if (user == null || isExpired) {
         throw AuthException(message: "User is not loggenIn");
       }
-      return UserModel.fromJson(user);
+      return UserModel.fromLocalJson(user);
     } catch (e) {
       if (e is AuthException) {
         throw AuthException(message: e.message, code: e.code);

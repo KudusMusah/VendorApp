@@ -69,12 +69,14 @@ class AuthRepositoryImpl implements AuthRepository {
     String email,
     String password,
     String name,
+    String phone,
   ) async {
     try {
       final user = await _authRemoteDataSource.registerWithEmailPassword(
         email,
         password,
         name,
+        phone,
       );
       return right(user);
     } on AuthException catch (e) {

@@ -1,14 +1,24 @@
+import 'package:didi/src/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:didi/src/core/constants.dart';
-import 'package:didi/src/core/enums/status.dart';
+import 'package:didi/src/features/orders/bloc/order_bloc.dart';
 import 'package:didi/src/features/orders/presentation/widgets/order_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class MyOrders extends StatelessWidget {
+class MyOrders extends StatefulWidget {
   const MyOrders({super.key});
 
   @override
+  State<MyOrders> createState() => _MyOrdersState();
+}
+
+class _MyOrdersState extends State<MyOrders> {
+  @override
   Widget build(BuildContext context) {
+    final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
+    context.read<OrderBloc>().add(GetUserOrders(token: user.token));
+
     return Scaffold(
       appBar: AppBar(
         titleSpacing: Constants.horizontalPadding,
@@ -21,19 +31,31 @@ class MyOrders extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
-        child: ListView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) => OrderItem(
-            status: index % 3 == 0
-                ? OrderStatus.delivered
-                : index % 3 == 1
-                    ? OrderStatus.pending
-                    : OrderStatus.cancelled,
-            showTrailing: index == 0,
-          ),
-        ),
+      body: BlocBuilder<OrderBloc, OrderState>(
+        builder: (context, state) {
+          if (state is OrderFailure) {
+            return const Center(
+              child: Text(
+                "An unexpected error occured",
+              ),
+            );
+          }
+
+          if (state is GetUserOrdersSuccess) {
+            return Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+              child: ListView.builder(
+                // reverse: true,
+                itemCount: state.orders.length,
+                itemBuilder: (context, index) => OrderItem(
+                  orderItem: state.orders[index],
+                ),
+              ),
+            );
+          }
+          return const SizedBox();
+        },
       ),
     );
   }

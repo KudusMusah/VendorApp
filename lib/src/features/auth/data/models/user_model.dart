@@ -6,10 +6,10 @@ class UserModel extends UserEntity {
     required super.email,
     required super.phone,
     required super.role,
-    required super.resetCode,
+    // required super.resetCode,
     required super.id,
-    required super.createdAt,
-    required super.updatedAt,
+    // required super.createdAt,
+    // required super.updatedAt,
     required super.token,
   });
 
@@ -29,10 +29,10 @@ class UserModel extends UserEntity {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       role: role ?? this.role,
-      resetCode: resetCode ?? this.resetCode,
+      // resetCode: resetCode ?? this.resetCode,
       id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
+      // createdAt: createdAt ?? this.createdAt,
+      // updatedAt: updatedAt ?? this.updatedAt,
       token: token ?? this.token,
     );
   }
@@ -43,30 +43,44 @@ class UserModel extends UserEntity {
       'email': email,
       'phone': phone,
       'role': role,
-      'resetCode': resetCode,
+      // 'resetCode': resetCode,
       'id': id,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
+      // 'createdAt': createdAt,
+      // 'updatedAt': updatedAt,
       'token': token,
     };
   }
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
     return UserModel(
+      name: map['user']['name'] ?? "",
+      email: map['user']['email'] ?? "",
+      phone: map['user']['phone'] ?? "",
+      role: map['user']['role'] ?? "",
+      // resetCode: map['resetCode'] ?? "",
+      id: map['user']['id'] ?? "",
+      // createdAt: map['createdAt'] ?? "",
+      // updatedAt: map['updatedAt'] ?? "",
+      token: map['token'] ?? "",
+    );
+  }
+
+  factory UserModel.fromLocalJson(Map<String, dynamic> map) {
+    return UserModel(
       name: map['name'] ?? "",
       email: map['email'] ?? "",
       phone: map['phone'] ?? "",
       role: map['role'] ?? "",
-      resetCode: map['resetCode'] ?? "",
+      // resetCode: map['resetCode'] ?? "",
       id: map['id'] ?? "",
-      createdAt: map['createdAt'] ?? "",
-      updatedAt: map['updatedAt'] ?? "",
+      // createdAt: map['createdAt'] ?? "",
+      // updatedAt: map['updatedAt'] ?? "",
       token: map['token'] ?? "",
     );
   }
 
   @override
   String toString() {
-    return 'UserEntity(name: $name, email: $email, phone: $phone, role: $role, resetCode: $resetCode, id: $id, createdAt: $createdAt, updatedAt: $updatedAt, token: $token)';
+    return 'token: $token';
   }
 }

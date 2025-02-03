@@ -19,6 +19,7 @@ class RegisterWithEmailUsecase
       params.email,
       params.password,
       params.name,
+      params.phone,
     );
   }
 }
@@ -27,10 +28,12 @@ class RegisterWithEmailParams {
   final String email;
   final String password;
   final String name;
+  final String phone;
 
   RegisterWithEmailParams({
     required this.email,
     required this.password,
     required this.name,
+    required this.phone,
   });
 }

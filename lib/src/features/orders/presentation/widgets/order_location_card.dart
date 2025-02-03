@@ -1,7 +1,6 @@
 import 'package:didi/src/core/constants.dart';
 import 'package:didi/src/core/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class OrderLocationCard extends StatelessWidget {
@@ -46,31 +45,6 @@ class OrderLocationCard extends StatelessWidget {
               thickness: 0.5,
             ),
             SizedBox(height: 1.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/svg/location.svg",
-                      height: 20,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Sunlodge Hotel",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        color: AppThemeColors.kWhiteColor,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ],
-                ),
-                SvgPicture.asset(
-                  "assets/svg/go_to.svg",
-                ),
-              ],
-            ),
             SizedBox(height: 2.h),
             Container(
               width: double.infinity,

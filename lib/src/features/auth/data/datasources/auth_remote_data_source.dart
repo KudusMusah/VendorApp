@@ -10,6 +10,7 @@ abstract interface class AuthRemoteDataSource {
     String email,
     String password,
     String name,
+    String phone,
   );
   Future<UserModel> loginWithEmailPassword(String email, String password);
   Future<void> forgotPassword(String email);
@@ -115,7 +116,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       });
 
       final response = await _httpClient.post(
-        Uri.parse("${Constants.authEndpoint}/login"),
+        Uri.parse("http://localhost:3000/api/auth/login/"),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -135,7 +136,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final resMap = jsonDecode(response.body) as Map<String, dynamic>;
       return UserModel.fromJson(
-        resMap["user"],
+        resMap,
       ).copyWith(token: resMap["token"]);
     } catch (e) {
       if (e is AuthException) {
@@ -150,18 +151,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String email,
     String password,
     String name,
+    String phone,
   ) async {
     try {
       final body = jsonEncode({
-        'name': name,
         'email': email,
         'password': password,
-        'phone': '+233246027827',
-        'role': 'vendor',
+        'name': name,
+        'phone': phone,
+        'role': 'buyer',
       });
 
       final response = await _httpClient.post(
-        Uri.parse("${Constants.authEndpoint}/register"),
+        Uri.parse("http://localhost:3000/api/auth/register/"),
         headers: {
           'Content-Type': 'application/json',
         },
