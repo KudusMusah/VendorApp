@@ -1,5 +1,8 @@
+import 'package:didi/src/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:didi/src/core/theme/theme_colors.dart';
+import 'package:didi/src/features/listings/search_bloc/search_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -18,8 +21,18 @@ class HomeTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isTablet = Device.screenType == ScreenType.tablet;
+    final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
     return TextField(
       readOnly: reaOnly,
+      onChanged: (value) {
+        if (value.isEmpty) {
+          return;
+        }
+
+        context
+            .read<SearchProductBloc>()
+            .add(GetSearchProductEvent(token: user.token, searchQuery: value));
+      },
       onTap: onTap,
       style: TextStyle(
         fontFamily: "Poppins",

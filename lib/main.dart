@@ -6,6 +6,7 @@ import 'package:didi/src/features/listings/bloc/products_bloc_bloc.dart';
 import 'package:didi/src/features/listings/cart_bloc/cart_bloc_bloc.dart';
 import 'package:didi/src/features/listings/delete_cart_bloc/delete_cart_bloc_bloc.dart';
 import 'package:didi/src/features/listings/details_bloc/products_bloc_bloc.dart';
+import 'package:didi/src/features/listings/search_bloc/search_bloc.dart';
 import 'package:didi/src/features/listings/shops_bloc/shops_bloc.dart';
 import 'package:didi/src/features/orders/bloc/order_bloc.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ Future<void> main() async {
             BlocProvider(create: (context) => DeleteCartBloc()),
             BlocProvider(create: (context) => OrderBloc()),
             BlocProvider(create: (context) => ShopsBloc()),
+            BlocProvider(create: (context) => SearchProductBloc()),
           ],
           child: const MainApp(),
         ),
