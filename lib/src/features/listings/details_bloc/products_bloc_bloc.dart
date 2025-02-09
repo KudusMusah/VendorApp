@@ -45,7 +45,7 @@ class DetailsProductsBloc
         id: resMap['_id'],
         title: resMap['title'],
         description: resMap['description'],
-        price: resMap['price'],
+        price: (resMap['price'] as num).toDouble(),
         imageUrl: resMap['imageUrl'],
         sellerId: resMap['sellerId'],
         shopId: resMap['shopId'],

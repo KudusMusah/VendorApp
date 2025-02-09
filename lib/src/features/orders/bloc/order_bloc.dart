@@ -24,6 +24,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   ) async {
     try {
       final List<Map<String, dynamic>> products = [];
+      final List<String> sellerIds = [];
       for (int i = 0; i < event.products.length; i++) {
         final product = {
           "productId": event.products[i].id,
@@ -31,9 +32,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           "price": event.products[i].price,
         };
         products.add(product);
+        sellerIds.add(event.products[i].sellerId);
       }
 
       final Map<String, dynamic> orderData = {
+        "sellerIds": sellerIds,
         "products": products,
         "totalPrice": double.parse(event.totalPrice.toStringAsFixed(2)),
       };
@@ -49,7 +52,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
       if (response.statusCode != 201) {
         final resMap = jsonDecode(response.body) as Map<String, dynamic>;
-
         final message = resMap["error"] ??
             resMap["message"] ??
             "An unexpected error occured";
@@ -80,7 +82,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
       if (response.statusCode != 200) {
         final resMap = jsonDecode(response.body) as Map<String, dynamic>;
-
         final message = resMap["error"] ??
             resMap["message"] ??
             "An unexpected error occured";
@@ -97,7 +98,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       }
       emit(GetUserOrdersSuccess(orders: orders));
     } catch (e) {
-      print(e);
       emit(OrderFailure(message: "An unexpected error occured"));
     }
   }

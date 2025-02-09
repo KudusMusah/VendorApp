@@ -19,23 +19,31 @@ class DeleteCartBloc extends Bloc<DeleteCartBlocEvent, DeleteCartState> {
   ) async {
     try {
       final hiveBox = Hive.box(name: "store");
-      int? index;
+      final List<Product> products = [];
+      final List<int> qtys = [];
 
       hiveBox.read(() {
         for (int i = 0; i < hiveBox.length; i++) {
           final a = hiveBox.get("store $i");
 
-          if (Product.fromJson(a) == event.product) {
-            index = i;
+          if (a == null) {
             break;
+          }
+
+          if (Product.fromJson(a) != event.product) {
+            products.add(Product.fromJson(a));
+            qtys.add(hiveBox.get("store_qty $i"));
           }
         }
       });
 
-      if (index != null) {
-        hiveBox.delete("store $index");
-        emit(DeleteCartSuccess());
-      }
+      hiveBox.clear();
+      hiveBox.write(() {
+        for (int i = 0; i < products.length; i++) {
+          hiveBox.put("store $i", products[i].toJson());
+          hiveBox.put("store_qty $i", qtys[i]);
+        }
+      });
     } catch (e) {
       emit(DeleteCartFailure(message: e.toString()));
     }

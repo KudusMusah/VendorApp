@@ -172,6 +172,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                           }
 
                           if (state is OrderSuccess) {
+                            setState(() {});
                             showSnackBar(
                                 context, "Order has been placed. Cart cleared");
                           }

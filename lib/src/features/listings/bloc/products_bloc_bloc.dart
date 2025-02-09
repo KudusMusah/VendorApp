@@ -45,7 +45,7 @@ class ProductsBloc extends Bloc<ProductsBlocEvent, ProductsState> {
           id: product['_id'],
           title: product['title'],
           description: product['description'],
-          price: product['price'],
+          price: (product["price"] as num).toDouble(),
           imageUrl: product['imageUrl'],
           sellerId: product['sellerId'],
           shopId: product['shopId'],
@@ -55,7 +55,6 @@ class ProductsBloc extends Bloc<ProductsBlocEvent, ProductsState> {
         );
         products.add(a);
       }
-
       emit(GetAllProductsSuccess(products: products));
     } catch (e) {
       emit(ProductsFailure(message: "An unexpected error occured"));
