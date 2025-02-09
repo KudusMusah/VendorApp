@@ -19,8 +19,13 @@ class ProductsBloc extends Bloc<ProductsBlocEvent, ProductsState> {
     Emitter<ProductsState> emit,
   ) async {
     try {
+      String url = "http://localhost:3000/api/products/";
+      if (event.shopId != null) {
+        url = "http://localhost:3000/api/products/shop/${event.shopId}";
+      }
+
       final response = await http.get(
-        Uri.parse("http://localhost:3000/api/products/"),
+        Uri.parse(url),
         headers: {
           'Content-Type': 'application/json',
           "Authorization": "Bearer ${event.token}",

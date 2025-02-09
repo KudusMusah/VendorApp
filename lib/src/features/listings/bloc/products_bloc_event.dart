@@ -5,6 +5,7 @@ sealed class ProductsBlocEvent {}
 
 final class GetAllProductsEvent extends ProductsBlocEvent {
   final String token;
+  final String? shopId;
 
-  GetAllProductsEvent({required this.token});
+  GetAllProductsEvent({required this.token, this.shopId});
 }

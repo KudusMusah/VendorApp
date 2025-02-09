@@ -4,9 +4,9 @@ import 'package:didi/src/core/theme/theme_colors.dart';
 import 'package:didi/src/features/auth/presentation/bloc/auth_bloc_bloc.dart';
 import 'package:didi/src/features/listings/bloc/products_bloc_bloc.dart';
 import 'package:didi/src/features/listings/presentation/widgets/announcement_card.dart';
-import 'package:didi/src/features/listings/presentation/widgets/custom_chip.dart';
 import 'package:didi/src/features/listings/presentation/widgets/home_text_field.dart';
 import 'package:didi/src/features/listings/presentation/widgets/meal_item.dart';
+import 'package:didi/src/features/listings/shops_bloc/shops_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -22,13 +22,14 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final List<String> selectedCategories = [];
+  String selectedShop = "";
 
   @override
   void initState() {
     super.initState();
     final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
     context.read<ProductsBloc>().add(GetAllProductsEvent(token: user.token));
+    context.read<ShopsBloc>().add(GetAllShops(token: user.token));
   }
 
   @override
@@ -37,137 +38,173 @@ class _HomepageState extends State<Homepage> {
     final user = (context.read<AppUserCubit>().state as AppUserLoggedIn).user;
 
     return SafeArea(
-      child: BlocBuilder<ProductsBloc, ProductsState>(
-        builder: (context, state) {
-          if (state is ProductsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (state is ProductsFailure) {
-            return Center(
-              child: Text(state.message),
-            );
-          }
-
-          if (state is GetAllProductsSuccess) {
-            return SingleChildScrollView(
-              child: Column(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 1.7.h),
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: 1.7.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Constants.horizontalPadding),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 60.w,
-                              child: RichText(
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                  text: "Hi There ",
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16.sp,
-                                  ),
-                                  children: [
-                                    TextSpan(
-                                      text: user.name,
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        color: AppThemeColors.kWhiteColor,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16.5.sp,
-                                      ),
-                                    ),
-                                  ],
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 60.w,
+                        child: RichText(
+                          overflow: TextOverflow.ellipsis,
+                          text: TextSpan(
+                            text: "Hi There ",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16.sp,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: user.name,
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  color: AppThemeColors.kWhiteColor,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.5.sp,
                                 ),
                               ),
-                            ),
-                            Text(
-                              "How is your day going?",
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 12.5.sp,
-                              ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                        Row(
-                          children: [
-                            if (user.role == "seller")
-                              GestureDetector(
-                                onTap: () => Routemaster.of(context)
-                                    .push("/seller_dahboard"),
-                                child: Icon(
-                                  Icons.dashboard_customize_outlined,
-                                  size: 20.sp,
-                                  color: AppThemeColors.kBasketTabBorderColor,
-                                ),
-                              ),
-                            SizedBox(width: 3.w),
-                            GestureDetector(
-                              onTap: () => context
-                                  .read<AuthBloc>()
-                                  .add(LogoutUserEvent()),
-                              child: Icon(
-                                Icons.logout,
-                                size: 20.sp,
-                                color: AppThemeColors.kBasketTabBorderColor,
-                              ),
-                            ),
-                          ],
+                      ),
+                      Text(
+                        "How is your day going?",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 12.5.sp,
                         ),
-                      ],
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      if (user.role == "seller")
+                        GestureDetector(
+                          onTap: () =>
+                              Routemaster.of(context).push("/seller_dahboard"),
+                          child: Icon(
+                            Icons.dashboard_customize_outlined,
+                            size: 20.sp,
+                            color: AppThemeColors.kBasketTabBorderColor,
+                          ),
+                        ),
+                      SizedBox(width: 3.w),
+                      GestureDetector(
+                        onTap: () =>
+                            context.read<AuthBloc>().add(LogoutUserEvent()),
+                        child: Icon(
+                          Icons.logout,
+                          size: 20.sp,
+                          color: AppThemeColors.kBasketTabBorderColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 2.5.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.7.w),
+              child: HomeTextField(
+                reaOnly: true,
+                onTap: widget.onTextFieldTap,
+              ),
+            ),
+            SizedBox(height: 2.3.h),
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+              child: const AnnouncementCard(),
+            ),
+            SizedBox(height: 2.3.h),
+            BlocBuilder<ShopsBloc, ShopsState>(
+              builder: (context, state) {
+                if (state is ShopsLoading) {
+                  return Center(
+                    child: SizedBox(
+                      height: 1.5.h,
+                      width: 1.5.h,
+                      child: const CircularProgressIndicator(),
                     ),
-                  ),
-                  SizedBox(height: 2.5.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.7.w),
-                    child: HomeTextField(
-                      reaOnly: true,
-                      onTap: widget.onTextFieldTap,
-                    ),
-                  ),
-                  SizedBox(height: 2.3.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Constants.horizontalPadding),
-                    child: const AnnouncementCard(),
-                  ),
-                  SizedBox(height: 2.3.h),
-                  SizedBox(
+                  );
+                }
+
+                if (state is ShopsSuccess) {
+                  return SizedBox(
                     height: 4.h,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: Constants.markets.length,
+                      itemCount: state.shops.length,
                       itemBuilder: (context, index) {
-                        final item = Constants.markets[index];
+                        final item = state.shops[index];
                         return Padding(
                           padding: EdgeInsets.only(left: isTablet ? 20 : 13),
-                          child: CustomChip(
-                            label: item,
+                          child: GestureDetector(
                             onTap: () {
-                              if (selectedCategories.contains(item)) {
-                                selectedCategories.remove(item);
-                              } else {
-                                selectedCategories.add(item);
+                              if (item.name == selectedShop) {
+                                context.read<ProductsBloc>().add(
+                                    GetAllProductsEvent(token: user.token));
+                                setState(() {
+                                  selectedShop = "";
+                                });
+                                return;
                               }
+                              context.read<ProductsBloc>().add(
+                                    GetAllProductsEvent(
+                                        token: user.token, shopId: item.id),
+                                  );
+                              setState(() {
+                                selectedShop = item.name;
+                              });
                             },
+                            child: Chip(
+                              padding: EdgeInsets.all(isTablet ? 10 : 8),
+                              label: Text(item.name),
+                              backgroundColor: item.name == selectedShop
+                                  ? AppThemeColors.kPrimaryButtonColor
+                                  : AppThemeColors.kTextFieldColor,
+                              visualDensity: VisualDensity.compact,
+                            ),
                           ),
                         );
                       },
                     ),
-                  ),
-                  SizedBox(height: 2.5.h),
-                  Padding(
+                  );
+                }
+
+                return const SizedBox();
+              },
+            ),
+            SizedBox(height: 2.5.h),
+            BlocBuilder<ProductsBloc, ProductsState>(
+              builder: (context, state) {
+                if (state is ProductsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                if (state is ProductsFailure) {
+                  return SizedBox(
+                    child: Center(
+                      child: Text(state.message),
+                    ),
+                  );
+                }
+
+                if (state is GetAllProductsSuccess) {
+                  return Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: Constants.horizontalPadding),
                     child: GridView.builder(
@@ -186,14 +223,13 @@ class _HomepageState extends State<Homepage> {
                         );
                       },
                     ),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return const SizedBox();
-        },
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
