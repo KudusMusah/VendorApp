@@ -9,3 +9,9 @@ final class GetSearchProductEvent extends SearchProductBlocEvent {
 
   GetSearchProductEvent({required this.token, required this.searchQuery});
 }
+
+final class GetSellerProductEvent extends SearchProductBlocEvent {
+  final String token;
+
+  GetSellerProductEvent({required this.token});
+}

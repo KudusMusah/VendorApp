@@ -18,3 +18,9 @@ final class GetSearchProductSuccess extends SearchProductState {
 
   GetSearchProductSuccess({required this.products});
 }
+
+final class GetSellerProductsSuccess extends SearchProductState {
+  final List<Product> products;
+
+  GetSellerProductsSuccess({required this.products});
+}

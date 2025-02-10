@@ -30,6 +30,15 @@ final loggedInRoutes = RouteMap(
   routes: {
     '/': (_) => const MaterialPage(child: TabBarPage()),
     '/seller_dahboard': (_) => const MaterialPage(child: SellerDashboard()),
+    '/seller_dahboard/create_screen': (_) =>
+        const MaterialPage(child: PostScreen()),
+    '/seller_dahboard/create_screen/product': (_) =>
+        const MaterialPage(child: AddProductPage()),
+    '/seller_dahboard/edit_product/:id': (info) => MaterialPage(
+          child: EditProductPage(
+            id: info.pathParameters['id']!,
+          ),
+        ),
     '/details/:id': (info) => MaterialPage(
           child: ProductDetails(
             id: info.pathParameters['id']!,
